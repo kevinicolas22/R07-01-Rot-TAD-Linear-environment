@@ -37,7 +37,6 @@ public class CircularQueue<T> implements Queue<T> {
 		head = (head + 1) % array.length;
 		elements--;
 		if (isEmpty()) {
-			// Reset head and tail if the queue becomes empty
 			head = -1;
 			tail = -1;
 		}

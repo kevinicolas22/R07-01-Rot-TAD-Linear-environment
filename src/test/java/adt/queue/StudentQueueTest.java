@@ -31,9 +31,9 @@ public class StudentQueueTest {
 
 	private void getImplementations() {
 		// Instancie sua implementação de fila usando pilhas aqui
-		queue1 = new QueueUsingStack<>(6); // Ajuste o tamanho conforme necessário
-		queue2 = new QueueUsingStack<>(2); // Ajuste o tamanho conforme necessário
-		queue3 = new QueueUsingStack<>(5); // Ajuste o tamanho conforme necessário
+		queue1 = new QueueUsingStack<>(6); 
+		queue2 = new QueueUsingStack<>(2); 
+		queue3 = new QueueUsingStack<>(5); 
 	}
 
 	// MÉTODOS DE TESTE
