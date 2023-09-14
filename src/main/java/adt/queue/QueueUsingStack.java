@@ -16,46 +16,50 @@ public class QueueUsingStack<T> implements Queue<T> {
 	}
 
 	@Override
-	public void enqueue(T element) throws QueueOverflowException, StackUnderflowException, StackOverflowException {
-		if (stack1.isFull()) {
+	public void enqueue(T element) throws QueueOverflowException {
+		transferIfNeeded(stack2, stack1);
+		try {
+			stack1.push(element);
+		} catch (StackOverflowException e) {
 			throw new QueueOverflowException();
-		}
-
-		while (!stack1.isEmpty()) {
-			stack2.push(stack1.pop());
-		}
-
-		stack1.push(element);
-
-		while (!stack2.isEmpty()) {
-			stack1.push(stack2.pop());
 		}
 	}
 
-
 	@Override
-	public T dequeue() throws QueueUnderflowException, StackUnderflowException {
-		if (isEmpty()) {
+	public T dequeue() throws QueueUnderflowException {
+		transferIfNeeded(stack1, stack2);
+		try {
+			return stack2.pop();
+		} catch (StackUnderflowException e) {
 			throw new QueueUnderflowException();
 		}
-		return stack1.pop();
 	}
 
 	@Override
 	public T head() {
-		if (isEmpty()) {
-			return null;
-		}
-		return stack1.top();
+		transferIfNeeded(stack1, stack2);
+		return stack2.top();
 	}
 
 	@Override
 	public boolean isEmpty() {
-		return stack1.isEmpty();
+		return stack1.isEmpty() && stack2.isEmpty();
 	}
 
 	@Override
 	public boolean isFull() {
-		return false;
+		return stack1.isFull() || stack2.isFull();
+	}
+
+	private void transferIfNeeded(Stack<T> from, Stack<T> to) {
+		if (to.isEmpty()) {
+			try {
+				while (!from.isEmpty()) {
+					to.push(from.pop());
+				}
+			} catch (StackOverflowException | StackUnderflowException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }
